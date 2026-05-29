@@ -10,9 +10,8 @@ This repository analyzes beaching patterns of ocean surface drifters from the [G
 **Notebook:** `data_stats_histograms.ipynb`
 
 Explore the dataset characteristics:
-- Drifter deployment patterns
-- Temporal and spatial coverage
-- Beaching statistics across regions
+- How long it takes drifters to beach
+- How far they travel
 
 **Output:** Statistical plots and histograms of raw data
 
@@ -21,10 +20,9 @@ Explore the dataset characteristics:
 ### 2. Beaching Probability Heatmaps
 **Notebook:** `probability_of_beaching.ipynb`
 
-Generate probability maps showing where drifters are most likely to beach:
+Generate probability maps showing ocean regions that produce higher-probability-of-beaching drifters:
 - Global beaching likelihood by grid cell
 - Regional probability distributions
-- Seasonal variations
 
 **Output:** Heatmaps of beaching probability across the global ocean
 
@@ -38,7 +36,7 @@ Calculate how long drifters take to reach the coast:
 - Temporal patterns by region
 - Distribution of beaching timescales
 
-**Output:** Heatmaps of average and median time to beach
+**Output:** Heatmaps of time to beach
 
 ---
 
@@ -49,7 +47,7 @@ Define coastal watersheds and quantify drifter beaching:
 - Global ocean delineated by coastal watershed boundaries
 - Coastline identification and mapping
 - Drifter count density by watershed
-- Normalized min/max density visualization (saved as `watersheds_final`)
+- Normalized min/max density visualization
 
 **Output:** Watershed maps and density heatmaps
 
@@ -63,7 +61,7 @@ Calculate geometric properties:
 - Area-normalized beaching statistics
 - Comparison of relative watershed sizes
 
-**Output:** Watershed area statistics and data tables
+**Output:** Watershed area statistics
 
 ---
 
@@ -82,7 +80,7 @@ Analyze beaching probability as a function of wind:
 ## Data Processing Pipeline
 
 ### Data Source
-- **Original repository:** [GDP Hourly Data](https://www.aoml.noaa.gov/phod/gdp/hourly_data.php)
+- **Original data access location:** [GDP Hourly Data](https://www.aoml.noaa.gov/phod/gdp/hourly_data.php)
 - **Current location:** `ftp://ftp.aoml.noaa.gov/phod/pub/buoydata/hourly_product/`
 
 ### Key Processing Steps
@@ -94,18 +92,16 @@ Analyze beaching probability as a function of wind:
 
 **2. Drogue Methods**
 - Drifter trajectories divided into drogue-on and drogue-off periods
-- Drogue loss detection and classification
-- Impact on near-surface current estimates
+- Separate into drogued and undrogued datasets
+- Further analysis is mostly performed on the undrogued dataset as these can act as better proxies for surface advecting plastics and other objects
 
 **3. Beaching Detection**
-- Identify coastal intersection points
-- Classify beaching vs. non-beaching trajectories
+- Classify beaching vs. non-beaching trajectories by drifter death code
 - Extract beaching location and timing
 
 **4. Probability Calculation**
 - Grid-based probability estimation
-- Kernel density estimation where appropriate
-- Confidence intervals from trajectory sampling
+- Kernel density estimation
 
 **5. Time-to-Beach Analysis**
 - Calculate duration from specified origin to beaching point
@@ -113,14 +109,12 @@ Analyze beaching probability as a function of wind:
 - Statistical distributions by region
 
 **6. Clustering Methods**
-- Identify geographic clusters of beaching events
-- Group watersheds by beaching characteristics
-- Unsupervised clustering of trajectory patterns
+- Identify geographic clusters of beaching events with ensembles of HDBSCAN and agglomerative clustering experiments
+- Hyperparameter sweeps and sensitivity analysis
 
 **7. Coastal Angle & Wind Analysis**
 - Compute local coastline normal vectors
-- Relate drifter drift to wind direction/speed relative to coast
-- Quantify directional dependencies in beaching probability
+- Relate drifter beaching probability to wind direction/speed relative to coast
 
 ---
 
@@ -138,7 +132,8 @@ Analyze beaching probability as a function of wind:
 ├── drogue_analysis/                   # Drogue-specific analysis
 ├── windland_analysis/                 # Wind & land analysis
 ├── watersheds/                        # Watershed data & outputs
-├── ML/                                # Machine learning applications
+├── ML/                                # Some very old machine learning experiments (predict trajectories, beaching coordinates)
+├── old/                               # Even older notebooks/scripts/experiments
 └── LICENSE                            # MIT License
 ```
 
